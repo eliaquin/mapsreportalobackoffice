@@ -17,7 +17,7 @@ function initMap() {
         imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     });
 }
-
+var data;
 var locations = [
   {lat: 18.478401, lng: -69.932807},
   {lat: 18.479401, lng: -69.962807},
@@ -50,3 +50,31 @@ var locations = [
   {lat: -42.735258, lng: 147.438000},
   {lat: -43.999792, lng: 170.463352}
 ]
+
+function cargarLocaciones() {
+    var fragmento = data.filter(function(x) {
+        return x.Latitud !== 0 && x.Latitud !== 18.000001;
+    });
+
+    locations = fragmento.map(function(x){
+        return { lat: x.Latitud, lng: x.Longitud};
+    });
+
+    console.log(locations);
+    initMap();
+}
+
+function cargarData() {
+    var url = "http://localhost:49249/api/datamovil/buscarsolicitudes/2017-01-01,2017-12-31";
+    var that = this;
+    axios.get(url)
+    .then(function(result){
+        data = result.data;
+        cargarLocaciones();
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+cargarData();
+
