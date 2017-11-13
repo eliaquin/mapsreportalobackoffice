@@ -52,11 +52,10 @@ var locations = [
 ]
 
 function cargarLocaciones() {
-    var fragmento = data.filter(function(x) {
+    locations = data.filter(function(x) {
         return x.Latitud !== 0 && x.Latitud !== 18.000001;
-    });
-
-    locations = fragmento.map(function(x){
+    })
+    .map(function(x){
         return { lat: x.Latitud, lng: x.Longitud};
     });
 
